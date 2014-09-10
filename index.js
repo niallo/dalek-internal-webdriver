@@ -41,7 +41,11 @@ var Driver = require('./lib/driver')(WebDriver);
 // include webdriver commands
 var dir = __dirname + '/lib/commands/';
 fs.readdirSync(dir).forEach(function (file) {
-  require(dir + file)(Driver);
+  // only require files that end in .js; this lets us skip temporary swap
+  // files
+  if (file.match(/\.js$/)) {
+    require(dir + file)(Driver);
+  }
 });
 
 // export the webdriver module
